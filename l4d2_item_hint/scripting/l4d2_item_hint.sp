@@ -22,7 +22,7 @@ public Plugin myinfo =
 	name        = "L4D2 Item hint",
 	author      = "BHaType, fdxx, HarryPotter",
 	description = "When using 'Look' in vocalize menu, print corresponding item to chat area and make item glow or create spot marker/infeced maker like back 4 blood.",
-	version     = "4.1-2025/12/27",
+	version     = "4.1.Z.0-2026/02/05",
 	url         = "https://forums.alliedmods.net/showpost.php?p=2765332&postcount=30"
 };
 
@@ -136,7 +136,8 @@ Handle
 StringMap 
 	g_smModelToName,
 	g_smModelHeight,
-	g_smModelNotGlow;
+	g_smModelNotGlow,
+	g_smNameToIcon;
 
 enum EHintType {
 	eItemHint,
@@ -512,6 +513,7 @@ void CreateStringMap()
 	g_smModelToName.SetString("models/weapons/melee/w_golfclub.mdl", "Golf_Club");
 	g_smModelToName.SetString("models/weapons/melee/w_pitchfork.mdl", "Pitchfork");
 	g_smModelToName.SetString("models/weapons/melee/w_shovel.mdl", "Shovel");
+	g_smModelToName.SetString("models/weapons/melee/w_riotshield.mdl", "Shield");
 	g_smModelToName.SetString("models/infected/boomette.mdl", "Boomer");
 	g_smModelToName.SetString("models/infected/boomer.mdl", "Boomer");
 	g_smModelToName.SetString("models/infected/boomer_l4d1.mdl", "Boomer");
@@ -588,6 +590,63 @@ void CreateStringMap()
 	g_smModelHeight.SetValue("models/weapons/melee/w_golfclub.mdl", 5.0);
 	g_smModelHeight.SetValue("models/weapons/melee/w_pitchfork.mdl", 5.0);
 	g_smModelHeight.SetValue("models/weapons/melee/w_shovel.mdl", 5.0);
+	g_smModelHeight.SetValue("models/weapons/melee/w_riotshield.mdl", 5.0);
+
+	g_smNameToIcon = new StringMap();
+
+	g_smNameToIcon.SetString("First_Aid_Kit",				"icon_equip_medkit");
+	g_smNameToIcon.SetString("Defibrillator",			"icon_defibrillator");
+	g_smNameToIcon.SetString("Pain_Pills",				"icon_equip_pills");
+	g_smNameToIcon.SetString("Adrenaline",			"icon_adrenaline");
+	g_smNameToIcon.SetString("Bile_Bomb",			"tip_boomer_bile");
+	g_smNameToIcon.SetString("Molotov",				"icon_equip_molotov");
+	g_smNameToIcon.SetString("Pipe_Bomb",				"icon_equip_pipebomb");
+	g_smNameToIcon.SetString("Laser_Sight",				"icon_laser_sight");
+	g_smNameToIcon.SetString("Incendiary_UpgradePack",	"icon_incendiary_ammo");
+	g_smNameToIcon.SetString("Explosive_UpgradePack",	"icon_explosive_ammo");
+	g_smNameToIcon.SetString("Ammo", 					"icon_ammo");
+	g_smNameToIcon.SetString("Chainsaw", 					"icon_chainsaw");
+	g_smNameToIcon.SetString("Pistol", 				"icon_pistol");
+	g_smNameToIcon.SetString("Magnum", 			"icon_deagle");
+	g_smNameToIcon.SetString("Pump_Shotgun", 					"icon_equip_pumpshotgun");
+	g_smNameToIcon.SetString("Shotgun_Chrome", 			"icon_equip_pumpshotgun");
+	g_smNameToIcon.SetString("Uzi", 					"icon_equip_uzi");
+	g_smNameToIcon.SetString("Silenced_Smg", 					"icon_equip_silencedsmg");
+	g_smNameToIcon.SetString("MP5", 					"icon_equip_uzi");
+	g_smNameToIcon.SetString("Rifle", 				"icon_equip_machinegun");
+	g_smNameToIcon.SetString("SG552", 				"icon_equip_machinegun");
+	g_smNameToIcon.SetString("AK47", 				"icon_equip_machinegun");
+	g_smNameToIcon.SetString("Desert_Rifle", 			"icon_equip_machinegun");
+	g_smNameToIcon.SetString("Shotgun_Spas", 			"icon_equip_spasshotgun");
+	g_smNameToIcon.SetString("Auto_Shotgun", 		"icon_equip_autoshotgun");
+	g_smNameToIcon.SetString("Hunting_Rifle", 			"icon_equip_rifle");
+	g_smNameToIcon.SetString("Military_Sniper", 			"icon_equip_militarysniper");
+	g_smNameToIcon.SetString("Scout", 			"icon_equip_rifle");
+	g_smNameToIcon.SetString("AWP", 				"icon_equip_militarysniper");
+	g_smNameToIcon.SetString("Grenade_Launcher", 		"icon_equip_grenadelauncher");
+	g_smNameToIcon.SetString("M60", 						"icon_equip_machinegun");
+	g_smNameToIcon.SetString("Gas_Can", 						"icon_gas_can");
+	g_smNameToIcon.SetString("Cola", 					"icon_cola_bottles");
+	g_smNameToIcon.SetString("50_Cal_Machine_Gun",						"icon_equip_desertrifle");
+	g_smNameToIcon.SetString("Minigun", 					"icon_equip_desertrifle");
+	g_smNameToIcon.SetString("Explosive_Ammo",	"icon_explosive_ammo");
+	g_smNameToIcon.SetString("Incendiary_Ammo",	"icon_incendiary_ammo");
+	g_smNameToIcon.SetString("Knife", 					"icon_knife");
+	g_smNameToIcon.SetString("Baseball_Bat", 						"icon_baseball_bat");
+	g_smNameToIcon.SetString("Cricket_Bat", 				"icon_cricket_bat");
+	g_smNameToIcon.SetString("Crowbar", 					"icon_crowbar");
+	g_smNameToIcon.SetString("Electric_Guitar", 			"icon_guitar");
+	g_smNameToIcon.SetString("Fireaxe", 					"icon_fireaxe");
+	g_smNameToIcon.SetString("Frying_Pan", 					"icon_frying_pan");
+	g_smNameToIcon.SetString("Katana", 						"icon_katana");
+	g_smNameToIcon.SetString("Machete", 					"icon_machete");
+	g_smNameToIcon.SetString("Nightstick", 						"icon_tonfa");
+	g_smNameToIcon.SetString("Golf_Club", 					"icon_golfclub");
+	g_smNameToIcon.SetString("Pitchfork", 					"tip_melee");
+	g_smNameToIcon.SetString("Shovel", 						"tip_melee");
+	g_smNameToIcon.SetString("Shield", 					"icon_shield");
+	//g_smNameToIcon.SetString("Gnome", 							"itempickup_background");
+
 
 	g_smModelNotGlow = new StringMap();
 	// 某些三方圖自製的特感模組無法產生光圈
@@ -988,8 +1047,8 @@ void CreateEntityModelGlow(int iEntity, const char[] sEntModelName)
 	DispatchSpawn(entity);
 
 	float vPos[3], vAng[3];
-	GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", vPos);
-	GetEntPropVector(iEntity, Prop_Send, "m_angRotation", vAng);
+	GetEntPropVector(iEntity, Prop_Data, "m_vecAbsOrigin", vPos);
+	GetEntPropVector(iEntity, Prop_Data, "m_angAbsRotation", vAng);
 	TeleportEntity(entity, vPos, vAng, NULL_VECTOR);
 
 	// Set outline glow color
@@ -1898,7 +1957,7 @@ bool CheckIfEntitySafe(int entity)
 // by BHaType: https://forums.alliedmods.net/showthread.php?p=2709810#post2709810
 void CreateInstructorHint(int client, const float vOrigin[3], const char[] sItemPhrase, int iEntity, EHintType type)
 {
-	static char sTargetName[64], sCaption[128];
+	static char sTargetName[64], sCaption[128], sItemIcon[32];
 	Format(sTargetName, sizeof(sTargetName), "%i_%.0f", client, GetEngineTime());
 
 	switch(type)
@@ -1913,7 +1972,14 @@ void CreateInstructorHint(int client, const float vOrigin[3], const char[] sItem
 					else FormatEx(sCaption, sizeof(sCaption), "%T", sItemPhrase, client);
 				}
 				else sCaption[0] = '\0';
-				Create_env_instructor_hint(iEntity, eItemHint, vOrigin, sTargetName, g_sItemInstructorIcon, sCaption, g_sItemInstructorColor, g_fItemGlowTimer, float(g_iItemGlowRange));
+				if(strlen(g_sItemInstructorIcon) == 0){
+					if(!g_smNameToIcon.GetString(sItemPhrase, sItemIcon, sizeof(sItemIcon))){
+						sItemIcon = "itempickup_background";
+					}
+				}else{
+					sItemIcon = g_sItemInstructorIcon;
+				}
+				Create_env_instructor_hint(iEntity, eItemHint, vOrigin, sTargetName, sItemIcon, sCaption, g_sItemInstructorColor, g_fItemGlowTimer, float(g_iItemGlowRange));
 			}
 		}
 		case eSpotMarker:
@@ -1939,7 +2005,15 @@ void CreateInstructorHint(int client, const float vOrigin[3], const char[] sItem
 					else FormatEx(sCaption, sizeof(sCaption), "%T", sItemPhrase, client);
 				}
 				else sCaption[0] = '\0';
-				Create_env_instructor_hint(iEntity, eInfectedMaker, vOrigin, sTargetName, g_sInfectedMarkInstructorIcon, sCaption, g_sInfectedMarkInstructorColor, g_fInfectedMarkGlowTimer, float(g_iInfectedMarkGlowRange));
+				char sInfectedIcon[16], sNetClassName[32];
+				if(StringToInt(g_sInfectedMarkInstructorIcon) == -1){
+					GetEntityNetClass(iEntity, sNetClassName, sizeof(sNetClassName));
+					sNetClassName[0] = CharToLower(sNetClassName[0]);
+					FormatEx(sInfectedIcon, sizeof(sInfectedIcon),"tip_%s", sNetClassName);
+				}else{
+					sInfectedIcon = g_sInfectedMarkInstructorIcon;
+				}
+				Create_env_instructor_hint(iEntity, eInfectedMaker, vOrigin, sTargetName, sInfectedIcon, sCaption, g_sInfectedMarkInstructorColor, g_fInfectedMarkGlowTimer, float(g_iInfectedMarkGlowRange));
 			}
 		}
 		case eSurvivorMaker:
@@ -2452,7 +2526,7 @@ float GetFovAngle(int client, int target)
 	GetAngleVectors(facedir, facedir, NULL_VECTOR, NULL_VECTOR);
 	NormalizeVector(facedir, facedir);
 
-	if(target > MaxClients) GetEntPropVector(target, Prop_Data, "m_vecOrigin", end);
+	if(target > MaxClients) GetEntPropVector(target, Prop_Data, "m_vecAbsOrigin", end);
 	else GetClientEyePosition(target, end);
 	SubtractVectors(end, start, entdir); // client --> entity
 	NormalizeVector(entdir, entdir);
