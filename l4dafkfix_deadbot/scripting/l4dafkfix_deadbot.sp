@@ -4,7 +4,7 @@
 #include <sdktools>
 #include <left4dhooks>
 
-#define PLUGIN_VERSION "1.0h"
+#define PLUGIN_VERSION "1.0h.1"
 #define TEAM_SURVIVORS 2
 #define TEAM_SPECTATOR 1
 
@@ -36,7 +36,7 @@ public void OnPluginStart()
 }
 
 
-public void Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
+public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
 {
 	int bot = GetClientOfUserId(GetEventInt(event, "userid"));
 	
@@ -47,8 +47,10 @@ public void Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast
 		{
 			L4D_SetHumanSpec(bot, idleplayer);
 			L4D_TakeOverBot(idleplayer);
+			event.SetInt("userid", GetClientUserId(idleplayer));
 		}
 	}
+	return Plugin_Continue;
 }
 
 int FindidOfIdlePlayer(int bot)
